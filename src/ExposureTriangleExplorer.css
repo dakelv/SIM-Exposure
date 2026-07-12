@@ -1,0 +1,389 @@
+.exposure-explorer {
+  --bg: #eef0f2;
+  --panel: #ffffff;
+  --ink: #20242c;
+  --ink-soft: #5b6472;
+  --line: #d7dbe0;
+  --scene-frame: #171a1f;
+  --accent: #3a6ea5;
+  --over: #c9720b; /* amber */
+  --under: #2c6fb0; /* blue  */
+  --ok: #2c8a4b; /* green */
+  --hud: #e9edf2;
+  --focus: #1c64d1;
+  --radius: 12px;
+
+  background: var(--bg);
+  color: var(--ink);
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  padding: 16px;
+  min-height: 100vh;
+}
+.exposure-explorer *,
+.exposure-explorer *::before,
+.exposure-explorer *::after {
+  box-sizing: border-box;
+}
+
+.exposure-explorer .wrap {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.exposure-explorer h1 {
+  font-size: 19px;
+  margin: 0 0 2px;
+  letter-spacing: -0.01em;
+}
+.exposure-explorer .lede {
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+  max-width: 62ch;
+}
+.exposure-explorer .lede b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.exposure-explorer .app {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+@media (max-width: 760px) {
+  .exposure-explorer .app {
+    flex-direction: column;
+  }
+}
+
+/* ---- Scene / viewfinder ---- */
+.exposure-explorer .stage {
+  flex: 0 0 auto;
+}
+.exposure-explorer .frame {
+  position: relative;
+  width: 520px;
+  max-width: 100%;
+  background: var(--scene-frame);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+@media (max-width: 760px) {
+  .exposure-explorer .frame {
+    width: 100%;
+  }
+}
+.exposure-explorer canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  background: #000;
+}
+.exposure-explorer .hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  color: var(--hud);
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+.exposure-explorer .hud .readout {
+  font-size: 15px;
+  font-weight: 600;
+}
+.exposure-explorer .hud .scene-tag {
+  font-size: 11px;
+  color: #9aa4b2;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.exposure-explorer .note {
+  margin-top: 10px;
+  padding: 9px 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: var(--ink);
+}
+.exposure-explorer .note b {
+  font-weight: 600;
+}
+
+/* ---- Meter ---- */
+.exposure-explorer .meter {
+  margin-top: 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px;
+}
+.exposure-explorer .meter-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 13px;
+}
+.exposure-explorer .meter-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+}
+.exposure-explorer .meter-state {
+  font-size: 13px;
+}
+.exposure-explorer .meter-sub {
+  color: var(--ink-soft);
+  font-weight: 400;
+  margin-left: auto;
+  font-size: 12px;
+}
+.exposure-explorer .bar {
+  position: relative;
+  height: 14px;
+  margin-top: 9px;
+  border-radius: 7px;
+  background: linear-gradient(
+    90deg,
+    var(--under) 0%,
+    #e7ebef 42%,
+    #e7ebef 58%,
+    var(--over) 100%
+  );
+  border: 1px solid var(--line);
+}
+.exposure-explorer .bar .center {
+  position: absolute;
+  left: 50%;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background: #8b95a3;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+.exposure-explorer .bar .marker {
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--ok);
+  transform: translate(-50%, -50%);
+  left: 50%;
+  transition:
+    left 0.12s ease,
+    border-color 0.12s ease;
+}
+.exposure-explorer .bar-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+
+/* ---- Controls ---- */
+.exposure-explorer .panel {
+  flex: 1 1 340px;
+  min-width: 280px;
+}
+.exposure-explorer .controls {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+.exposure-explorer .ctrl + .ctrl {
+  margin-top: 16px;
+}
+.exposure-explorer .ctrl-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.exposure-explorer .ctrl-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+.exposure-explorer .ctrl-val {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+}
+.exposure-explorer .ctrl-def {
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  margin: 1px 0 7px;
+}
+.exposure-explorer input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 4px;
+  background: #dfe3e8;
+  outline: none;
+  margin: 0;
+  cursor: pointer;
+}
+.exposure-explorer input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--accent);
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+.exposure-explorer input[type='range']::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--accent);
+  cursor: pointer;
+}
+.exposure-explorer input[type='range']:focus-visible {
+  box-shadow: 0 0 0 3px rgba(28, 100, 209, 0.35);
+}
+.exposure-explorer .scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 10.5px;
+  color: var(--ink-soft);
+}
+
+.exposure-explorer .toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.exposure-explorer .switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  user-select: none;
+}
+.exposure-explorer .switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.exposure-explorer .track {
+  width: 38px;
+  height: 22px;
+  border-radius: 12px;
+  background: #c8cdd4;
+  position: relative;
+  transition: background 0.15s;
+  flex: 0 0 auto;
+}
+.exposure-explorer .track::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  transition: left 0.15s;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.exposure-explorer .switch input:checked + .track {
+  background: var(--accent);
+}
+.exposure-explorer .switch input:checked + .track::after {
+  left: 18px;
+}
+.exposure-explorer .switch input:focus-visible + .track {
+  box-shadow: 0 0 0 3px rgba(28, 100, 209, 0.35);
+}
+
+.exposure-explorer .presets {
+  margin-top: 16px;
+}
+.exposure-explorer .presets-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+.exposure-explorer .preset-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.exposure-explorer .preset {
+  text-align: left;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 9px 12px;
+  cursor: pointer;
+  font: inherit;
+  color: var(--ink);
+  transition:
+    border-color 0.12s,
+    background 0.12s;
+}
+.exposure-explorer .preset:hover {
+  border-color: var(--accent);
+  background: #f7f9fb;
+}
+.exposure-explorer .preset:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(28, 100, 209, 0.35);
+  border-color: var(--accent);
+}
+.exposure-explorer .preset .p-name {
+  font-weight: 600;
+  font-size: 13px;
+}
+.exposure-explorer .preset .p-goal {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.exposure-explorer .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+.exposure-explorer footer {
+  margin-top: 16px;
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  text-align: center;
+}
